@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>São Paulo Futebol Clube</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+  </head>
+  <body>
+    <h1>São Paulo Futebol Clube</h1>
+
+    <a
+      href="https://www.saopaulofc.net/tag/site-oficial/"
+      target="_blank"
+      rel="noopener"
+    >
+      <img
+        src="midias/spfc.png"
+        alt="São Paulo Futebol Clube"
+        width="200"
+        height="200"
+        class="logo"
+      />
+    </a>
+
+    <audio controls>
+      <source src="midias/hino.mp3" type="audio/mpeg" />
+      Seu navegador não suporta áudio.
+    </audio>
+
+    <h1>O MAIOR DO BRASIL</h1>
+
+    <p>
+      O <strong>São Paulo Futebol Clube</strong>, mais conhecido como
+      <strong>São Paulo FC</strong> ou simplesmente <strong>São Paulo</strong>,
+      é um dos clubes mais tradicionais e vitoriosos do Brasil. Fundado em 1930,
+      o Tricolor Paulista conquistou títulos nacionais e internacionais,
+      tornando-se o único clube brasileiro a conquistar todos os títulos
+      possíveis.
+      <strong>Por isso, é reconhecido como o maior do Brasil!</strong>
+    </p>
+
+    <ul>
+      <li>⭐ Soberano</li>
+      <li>🏆 Campeão de tudo</li>
+      <li>❤️ O mais querido</li>
+    </ul>
+
+    <table>
+      <tr>
+        <th>Jogos</th>
+        <th>Local</th>
+        <th>Horário</th>
+      </tr>
+      <tr>
+        <td>
+          <img src="midias/mineiro.png" alt="Atl. Mineiro" width="40" />
+          <a href="https://atletico.com.br/" target="_blank" rel="noopener"
+            >Atl. Mineiro</a
+          >
+        </td>
+        <td>Morumbis</td>
+        <td>24/08 às 20:30</td>
+      </tr>
+      <tr>
+        <td>
+          <img src="midias/cruzeiro.png" alt="Atl. Nacional" width="40" />
+          <a href="https://cruzeiro.com" target="_blank" rel="noopener"
+            >Cruzeiro</a
+          >
+        </td>
+        <td>Mineirão</td>
+        <td>30/08 às 21:00</td>
+      </tr>
+      <tr>
+        <td>
+          <img src="midias/botafogo.png" alt="Atl. Mineiro" width="40" />
+          <a href="https://botafogo.com.br" target="_blank" rel="noopener"
+            >Botafogo</a
+          >
+        </td>
+        <td>Morumbis</td>
+        <td>13/09 a confirmar</td>
+      </tr>
+    </table>
+
+    <!-- Imagem com hover -->
+    <div class="hover-container">
+      <img src="midias/titulo.jpg" alt="Título Mundial 2005" class="titulo" />
+      <div class="overlay">🏆 Campeão Mundial 2005 - SPFC 1x0 Liverpool</div>
+    </div>
+
+    <!-- Carrossel de imagens (clique para avançar) -->
+    <div
+      class="carousel"
+      id="carousel"
+      aria-label="Carrossel de títulos do SPFC"
+    >
+      <div class="slides">
+        <div class="slide">
+          <img
+            src="midias/titulo1.jpg"
+            alt="Libertadores 1992"
+            draggable="false"
+          />
+          <div class="overlay">🏆 Libertadores 1992</div>
+        </div>
+        <div class="slide">
+          <img
+            src="midias/titulo2.jpg"
+            alt="Libertadores 1993"
+            draggable="false"
+          />
+          <div class="overlay">🏆 Libertadores 1993</div>
+        </div>
+        <div class="slide">
+          <img src="midias/titulo3.jpg" alt="Mundial 1993" draggable="false" />
+          <div class="overlay">🌍 Mundial 1993</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const carousel = document.getElementById("carousel");
+        if (!carousel) return;
+
+        const slidesTrack = carousel.querySelector(".slides");
+        const slideEls = Array.from(carousel.querySelectorAll(".slide"));
+
+        let index = 0;
+        const total = slideEls.length;
+        let timer = null;
+        const INTERVALO_MS = 9000; // auto-rolagem mais lenta
+
+        // Garantir layout estável antes de animar
+        function update() {
+          slidesTrack.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        function next() {
+          index = (index + 1) % total; // na última volta para a primeira
+          update();
+        }
+
+        function start() {
+          stop();
+          timer = setInterval(next, INTERVALO_MS);
+        }
+
+        function stop() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+
+        // Clique na área do carrossel avança
+        carousel.addEventListener("click", function (e) {
+          e.preventDefault();
+          next();
+          start(); // reinicia o timer após clique
+        });
+
+        // Pausa no hover (opcional)
+        carousel.addEventListener("mouseenter", stop);
+        carousel.addEventListener("mouseleave", start);
+
+        // Acessibilidade: reduz movimento
+        const prefersReduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        );
+        if (prefersReduced.matches) {
+          stop();
+        } else {
+          start();
+        }
+
+        // Inicializa posição
+        update();
+      })();
+    </script>
+  </body>
+</html>

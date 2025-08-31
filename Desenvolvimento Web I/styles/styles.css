@@ -1,0 +1,173 @@
+/* Base */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  color: #111;
+}
+
+h1 {
+  color: red;
+  margin-top: 20px;
+  text-shadow: 1px 1px 2px #00000033;
+}
+
+p {
+  max-width: 800px;
+  margin: 20px auto;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+ul li {
+  margin: 5px 0;
+}
+
+img.logo {
+  display: block;
+  margin: 0 auto;
+}
+audio {
+  display: block;
+  margin: 15px auto;
+}
+
+/* Tabela */
+table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+}
+th {
+  background-color: red;
+  color: white;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+td img {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+a {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Hover na imagem destaque */
+.hover-container {
+  position: relative;
+  display: inline-block;
+  margin: 20px;
+  cursor: default;
+}
+.hover-container img {
+  width: 360px;
+  border: 3px solid red;
+  border-radius: 8px;
+  user-select: none;
+}
+.hover-container .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0 0 8px 8px;
+}
+.hover-container:hover .overlay {
+  opacity: 1;
+}
+
+/* Carrossel (maior e estável) */
+.carousel {
+  width: 560px; /* Aumentado */
+  height: 320px; /* Aumentado */
+  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  background: #000; /* fundo neutro enquanto carrega */
+  cursor: pointer; /* indica que pode clicar */
+  position: relative;
+}
+
+.slides {
+  display: flex; /* layout robusto */
+  height: 100%;
+  transition: transform 0.6s ease; /* animação suave */
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 100%; /* cada slide ocupa 100% da largura do carrossel */
+  position: relative;
+  height: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  border-bottom: 3px solid red;
+}
+
+.slide .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.slide:hover .overlay {
+  opacity: 1;
+}
+
+/* Responsivo */
+@media (max-width: 640px) {
+  .carousel {
+    width: 92vw;
+    height: 52vw;
+  }
+  .hover-container img {
+    width: 92vw;
+  }
+}
