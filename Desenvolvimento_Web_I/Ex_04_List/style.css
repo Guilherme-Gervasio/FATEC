@@ -1,0 +1,115 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+input[type="text"],
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  background: red;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #b30000;
+}
+
+.kanban-board {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  justify-content: center;
+}
+
+.kanban-column {
+  background: #fff;
+  flex: 1;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-column h2 {
+  text-align: center;
+  color: #333;
+  border-bottom: 2px solid red;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.task {
+  background: #fafafa;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid red;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+  transition: background 0.3s;
+}
+
+.task.completed {
+  text-decoration: line-through;
+  color: #999;
+  border-left-color: #999;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.delete-btn:hover {
+  color: #c0392b;
+}
+
+.kanban-column.drag-over {
+  background: #f0f0f0;
+  border: 2px dashed red;
+}
+
+.category-select {
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  background: white;
+  cursor: pointer;
+}
