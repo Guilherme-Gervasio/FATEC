@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kanban To-Do List</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f6f8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .input-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+
+      input[type="text"],
+      select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+      }
+
+      button {
+        padding: 10px 15px;
+        border: none;
+        background: red;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background: #b30000;
+      }
+
+      .kanban-board {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        max-width: 1000px;
+        justify-content: center;
+      }
+
+      .kanban-column {
+        background: #fff;
+        flex: 1;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .kanban-column h2 {
+        text-align: center;
+        color: #333;
+        border-bottom: 2px solid red;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+      }
+
+      .task {
+        background: #fafafa;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-left: 4px solid red;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: grab;
+        transition: background 0.3s;
+      }
+
+      .task.completed {
+        text-decoration: line-through;
+        color: #999;
+        border-left-color: #999;
+      }
+
+      .delete-btn {
+        background: none;
+        border: none;
+        color: #e74c3c;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .delete-btn:hover {
+        color: #c0392b;
+      }
+
+      .kanban-column.drag-over {
+        background: #f0f0f0;
+        border: 2px dashed red;
+      }
+
+      .category-select {
+        margin-left: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+        background: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Kanban To-Do List</h1>
+
+    <div class="input-container">
+      <input type="text" id="taskInput" placeholder="Digite uma tarefa..." />
+      <select id="categorySelect">
+        <option value="todo">A Fazer</option>
+        <option value="progress">Em Progresso</option>
+        <option value="done">Concluído</option>
+      </select>
+      <button id="addBtn">Adicionar</button>
+    </div>
+
+    <div class="kanban-board">
+      <div class="kanban-column" id="todo" data-status="todo">
+        <h2>A Fazer</h2>
+      </div>
+      <div class="kanban-column" id="progress" data-status="progress">
+        <h2>Em Progresso</h2>
+      </div>
+      <div class="kanban-column" id="done" data-status="done">
+        <h2>Concluído</h2>
+      </div>
+    </div>
+
+    <script>
+      const taskInput = document.getElementById("taskInput");
+      const categorySelect = document.getElementById("categorySelect");
+      const addBtn = document.getElementById("addBtn");
+      const columns = document.querySelectorAll(".kanban-column");
+
+      addBtn.addEventListener("click", addTask);
+      taskInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") addTask();
+      });
+
+      function addTask() {
+        const text = taskInput.value.trim();
+        const category = categorySelect.value;
+        if (!text) return;
+
+        const task = createTaskElement(text);
+        document.getElementById(category).appendChild(task);
+
+        taskInput.value = "";
+        taskInput.focus();
+      }
+
+      function createTaskElement(text) {
+        const div = document.createElement("div");
+        div.classList.add("task");
+        div.draggable = true;
+
+        const span = document.createElement("span");
+        span.textContent = text;
+
+        // 🔽 Novo seletor de categoria dentro da tarefa
+        const moveSelect = document.createElement("select");
+        moveSelect.classList.add("category-select");
+        moveSelect.innerHTML = `
+        <option value="todo">A Fazer</option>
+        <option value="progress">Em Progresso</option>
+        <option value="done">Concluído</option>
+      `;
+        moveSelect.addEventListener("change", (e) => {
+          const newCategory = e.target.value;
+          document.getElementById(newCategory).appendChild(div);
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "X";
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          div.remove();
+        });
+
+        div.appendChild(span);
+        div.appendChild(moveSelect);
+        div.appendChild(deleteBtn);
+
+        div.addEventListener("click", (e) => {
+          if (e.target.tagName !== "SELECT") {
+            div.classList.toggle("completed");
+          }
+        });
+
+        div.addEventListener("dragstart", () => div.classList.add("dragging"));
+        div.addEventListener("dragend", () => div.classList.remove("dragging"));
+
+        return div;
+      }
+
+      columns.forEach((col) => {
+        col.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          col.classList.add("drag-over");
+        });
+
+        col.addEventListener("dragleave", () => {
+          col.classList.remove("drag-over");
+        });
+
+        col.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const draggingTask = document.querySelector(".dragging");
+          col.classList.remove("drag-over");
+          if (draggingTask) col.appendChild(draggingTask);
+        });
+      });
+    </script>
+  </body>
+</html>
